@@ -20,10 +20,16 @@ exports.update = function(req,res){
     contact.findById(req.params.contact_id,function(err,req){
         if(err)
             res.send(err);
-        contact.name = req.body.name ? req.body.name : contact.name;
-        contact.gender = req.body.gender;
-        contact.email = req.body.email;
-        contact.phone = req.body.phone;
+        if(req.body.name)
+            contact.name = req.body.name;
+        if(req.body.surname)
+            contact.surname = req.body.surname;
+        if(req.body.password)
+            contact.password = req.body.password;
+        if(req.body.email)
+            contact.email = req.body.email;
+        if(req.body.phone)
+            contact.phone = req.body.phone;
 
         contact.save(function(err){
             if(err)
@@ -42,17 +48,16 @@ exports.delete = function(req,res){
     }, function(err,contact){
         if(err)
             res.send(err);
-    res.json({
-        status: "success",
-        message: "contact deleted"
-       
+        res.json({
+            status: "success",
+            message: "contact deleted"
         });;
     });
 };
 
 exports.new = function(req,res){
     var Contact = new contact();
-    Contact.name = req.body.name ? req.body.name : contact.name;
+    Contact.name = req.body.name;
     Contact.surname = req.body.surname;
     Contact.email = req.body.email;
     Contact.phone = req.body.phone;

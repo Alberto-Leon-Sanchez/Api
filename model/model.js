@@ -12,7 +12,7 @@ var contactSchema = mongoose.Schema({
         required: true
     },
     phone:{
-        type: Number,
+        type: String,
         minlenght: 9,
         maxlength: 9
     },
