@@ -1,11 +1,13 @@
 var mongoose = require("mongoose");
+var { Schema } = mongoose;
 
-var contactSchema = mongoose.Schema({
+var contactSchema = new Schema({
     name : String,
     surname : String,
     email : {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     password : {
         type: String,
@@ -22,7 +24,4 @@ var contactSchema = mongoose.Schema({
     }
 });
 
-var contact = module.exports = mongoose.model('contact', contactSchema);
-module.exports.get = function (callback, limit) {
-    contact.find(callback).limit(limit);
-}
+module.exports = mongoose.model("Contact", contactSchema);
