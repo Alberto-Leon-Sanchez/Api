@@ -16,6 +16,11 @@ var bookSchema = new Schema({
         unique: true,
     },
 
+    autor:{
+        type: String,
+        required: true,
+    },
+    
     descripcion:{
         type: String,
         required: true,

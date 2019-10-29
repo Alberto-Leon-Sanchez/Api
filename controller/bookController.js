@@ -1,4 +1,4 @@
-var Books = require("../model/bookModels");
+var Books = require("../model/bookModel");
 
 function getBooks(req,res) {
     Books.find({},(err,books)=>{
@@ -56,7 +56,7 @@ function editBook(req,res){
         if(err) return res.status(500).send({err});
         if(!book)  return res.status(404).send({message: "Book not found"});
 
-        return res.status(200).send({message: "Book edited"}, book);
+        return res.status(200).send({message: "Book edited",book});
     });
 }
 
@@ -71,31 +71,95 @@ function deleteBook(req,res){
     });
 }
 
-function findBook(req,res){
-    var glu = [
-        req.params.titulo,
-        req.params.ISBN,
-        req.params.descripcion,
-        req.params.fechaPublicacion,
-        req.params.precio,
-        req.params.editorial,
-    ]
-    for(var i =0; i<glu.length; i++)
-        if(glu[i])
-            Books.findOne(glu[1], (err,book)=>{
-                if(err) return res.status(500).send({err});
-                if(!book) return res.status(404).send({message: "Book not found"});
+function findBookByISBN(req,res){
+    const {ISBN} = req.params;
 
-                return res.status(200).send({book});
-            });
+    Books.findOne({ ISBN },(err,book)=>{
+        if(err) return res.status(500).send({err});
+        if(!book) return res.status(404).send({message: "Book not found"});
+
+        return res.status(200).send({book});
+    });
+}
+
+function findBookByFecha(req,res){
+    const {fecha} = req.params;
+
+    Books.findOne({ fecha },(err,book)=>{
+        if(err) return res.status(500).send({err});
+        if(!book) return res.status(404).send({message: "Book not found"});
+
+        return res.status(200).send({book});
+    });
+}
+
+function findBookByTitulo(req,res){
+    const {titulo} = req.params;
+
+    Books.findOne({ titulo },(err,book)=>{
+        if(err) return res.status(500).send({err});
+        if(!book) return res.status(404).send({message: "Book not found"});
+
+        return res.status(200).send({book});
+    });
+}
+
+function findBookByAutor(req,res){
+    const {autor} = req.params;
+
+    Books.findOne({ autor },(err,book)=>{
+        if(err) return res.status(500).send({err});
+        if(!book) return res.status(404).send({message: "Book not found"});
+
+        return res.status(200).send({book});
+    });
+}
+
+function findBookByDescripcion(req,res){
+    const {descripcion} = req.params;
+
+    Books.findOne({ descripcion },(err,book)=>{
+        if(err) return res.status(500).send({err});
+        if(!book) return res.status(404).send({message: "Book not found"});
+
+        return res.status(200).send({book});
+    });
+}
+
+function findBookByEditorial(req,res){
+    const {editorial} = req.params;
+
+    Books.findOne({ editorial },(err,book)=>{
+        if(err) return res.status(500).send({err});
+        if(!book) return res.status(404).send({message: "Book not found"});
+
+        return res.status(200).send({book});
+    });
+}
+
+function findBookByPrecio(req,res){
+    const {precio} = req.params;
+
+    Books.findOne({ precio },(err,book)=>{
+        if(err) return res.status(500).send({err});
+        if(!book) return res.status(404).send({message: "Book not found"});
+
+        return res.status(200).send({book});
+    });
 }
 
 module.exports = {
     getBooks,
     getBook,
     editBook,
-    findBook,
+    findBookByISBN,
+    findBookByEditorial,
+    findBookByPrecio,
+    findBookByDescripcion,
+    findBookByFecha,
+    findBookByTitulo,
+    findBookByAutor,
     deleteBook,
     createBook,
-    replaceBook
+    replaceBook,
 }
