@@ -12,7 +12,11 @@ Router.route('/:userId')
   .patch(contactController.editUser)
   .put(contactController.replaceUser);
 
-Router.route('/:email')
+Router.route('/login/:email')
   .get(contactController.login);
+
+
+Router.route('/me/token')
+  .get(contactController.compareToken);
 
 module.exports = Router;

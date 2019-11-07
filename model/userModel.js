@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const { Schema } = mongoose;
 
@@ -23,6 +24,16 @@ const contactSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+});
+
+contactSchema.pre('save', function (next) {
+  bcrypt.hash(this.password, 10, (err, hash) => {
+    if (err) return next(err);
+
+    this.password = hash;
+
+    next();
+  });
 });
 
 module.exports = mongoose.model('Contact', contactSchema);

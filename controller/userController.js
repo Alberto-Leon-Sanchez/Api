@@ -1,4 +1,7 @@
+const bcrypt = require('bcrypt');
 const Contact = require('../model/userModel');
+const service = require('../services/index');
+const middleware = require('../middleware/auth');
 
 function getUsers(req, res) {
   Contact.find({}, (err, contacts) => {
@@ -19,10 +22,10 @@ function getUser(req, res) {
 function createUser(req, res) {
   const user = new Contact(req.body);
 
-  user.save((err, newUser) => {
-    if (err) return res.status(400).send({ message: 'error saving user', err });
+  user.save((err) => {
+    if (err) return res.status(500).send({ message: 'error al guardar el usuario', err });
 
-    return res.status(200).send({ message: 'User save', newUser });
+    return res.status(200).send({ user });
   });
 }
 
@@ -74,11 +77,29 @@ function login(req, res) {
   const { password } = req.body;
 
   Contact.findOne({ email }, (err, user) => {
-    if (err) return res.status(500).send({ err });
-    if (!user) return res.status(404).send({ err });
+    if (err) return res.status(404).send({ message: 'User not found' });
 
-    if (password === user.password) return res.status(200).send({ message: 'Correct password' });
-    return res.status(401).send({ message: 'Incorrect password' });
+    bcrypt.compare(password, user.password, (err, same) => {
+      if (err) res.status(500).send({ message: `Error al comparar contraseñas ${err} ` });
+
+      if (same) return res.status(200).send({ message: 'Logeado correctamente', token: service.createToken(user), user });
+    });
+  });
+}
+
+function compareToken(req, res) {
+  var { token } = req.headers;
+  token = token.replace('Bearer ', '');
+
+
+  if (!service.verifyToken(token)) return res.status(401).send({ message: 'token invalido' });
+
+  const payload = service.decodeToken(token);
+
+  Contact.findById(payload.email, (err, user) => {
+    if (err) return res.status(404).send({ message: 'User not found' });
+
+    return res.status(200).send(user);
   });
 }
 
@@ -90,4 +111,5 @@ module.exports = {
   editUser,
   createUser,
   replaceUser,
+  compareToken,
 };

@@ -5,7 +5,7 @@ const bookRoutes = require('./routes/bookRoutes');
 
 const app = express();
 
-app.use(bodyParser.urlencoded({extended: false }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/contacts', userRoutes);
 app.use('/books', bookRoutes);
