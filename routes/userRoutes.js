@@ -13,7 +13,7 @@ Router.route('/:userId')
   .put(contactController.replaceUser);
 
 Router.route('/login/:email')
-  .get(contactController.login);
+  .post(contactController.login);
 
 
 Router.route('/me/token')
