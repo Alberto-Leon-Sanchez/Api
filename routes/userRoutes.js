@@ -12,7 +12,7 @@ Router.route('/:userId')
   .patch(contactController.editUser)
   .put(contactController.replaceUser);
 
-Router.route('/login/:email')
+Router.route('/login')
   .post(contactController.login);
 
 

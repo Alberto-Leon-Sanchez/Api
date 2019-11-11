@@ -73,7 +73,7 @@ function deleteUser(req, res) {
 }
 
 function login(req, res) {
-  const { email } = req.params;
+  const { email } = req.body;
   const { password } = req.body;
 
   Contact.findOne({ email }, (err, user) => {
