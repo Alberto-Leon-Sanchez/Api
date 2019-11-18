@@ -1,13 +1,17 @@
-const service = require('../services/index');
+const jwt = require('jsonwebtoken');
+const config = require('../config');
 
 function isAuth(req, res, next) {
-  if (!req.headers.token) next(res.status(403).send({ message: 'Access Denied' }));
 
   const { token } = req.headers;
 
-  if (service.verifyToken(token)) next(res.status(401).send({ message: 'token invalido' }));
+  if (!token) next(res.status(403).send({ message: 'Access Denied' }));
 
-  next();
+  jwt.verify(token, config.SECRET_TOKEN, { complete: true }, (err) => {
+    if (err) return res.status(501).send({ message: 'Token invalido' });
+  });
+
+  next(res.status(200).send({ message: 'Token valido' }));
 }
 
 module.exports = {

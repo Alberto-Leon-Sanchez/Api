@@ -1,5 +1,6 @@
 const Router = require('express').Router();
 
+const middleware = require('../middleware/auth');
 const contactController = require('../controller/userController');
 
 Router.route('/')
@@ -17,6 +18,6 @@ Router.route('/login')
 
 
 Router.route('/me/token')
-  .get(contactController.compareToken);
+  .get(middleware.isAuth)
 
 module.exports = Router;

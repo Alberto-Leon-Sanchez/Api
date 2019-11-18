@@ -1,7 +1,6 @@
 const bcrypt = require('bcrypt');
 const Contact = require('../model/userModel');
 const service = require('../services/index');
-const middleware = require('../middleware/auth');
 
 function getUsers(req, res) {
   Contact.find({}, (err, contacts) => {
@@ -87,22 +86,6 @@ function login(req, res) {
   });
 }
 
-function compareToken(req, res) {
-  var { token } = req.headers;
-  token = token.replace('Bearer ', '');
-
-
-  if (!service.verifyToken(token)) return res.status(401).send({ message: 'token invalido' });
-
-  const payload = service.decodeToken(token);
-
-  Contact.findById(payload.email, (err, user) => {
-    if (err) return res.status(404).send({ message: 'User not found' });
-
-    return res.status(200).send(user);
-  });
-}
-
 module.exports = {
   getUsers,
   getUser,
@@ -111,5 +94,4 @@ module.exports = {
   editUser,
   createUser,
   replaceUser,
-  compareToken,
 };

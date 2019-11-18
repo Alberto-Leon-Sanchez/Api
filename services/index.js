@@ -16,15 +16,7 @@ function decodeToken(token) {
   });
 }
 
-function verifyToken(token) {
-  jwt.verify(token, config.SECRET_TOKEN, (err) => {
-    if (err) return false;
-
-    return true;
-  });
-}
 module.exports = {
   createToken,
   decodeToken,
-  verifyToken,
 };
