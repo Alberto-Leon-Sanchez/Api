@@ -3,7 +3,7 @@ const config = require('../config');
 
 function createToken(user) {
   const payLoad = {
-    email: user.email,
+    sub: user._id,
   };
 
   return jwt.sign(payLoad, config.SECRET_TOKEN, { expiresIn: 60 * 60 * 24 * 14 });

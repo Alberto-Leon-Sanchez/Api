@@ -18,6 +18,6 @@ Router.route('/login')
 
 
 Router.route('/me/token')
-  .get(middleware.isAuth)
+  .get(middleware.isAuth, contactController.loginToken);
 
 module.exports = Router;

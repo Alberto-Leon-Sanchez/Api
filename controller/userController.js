@@ -86,6 +86,16 @@ function login(req, res) {
   });
 }
 
+function loginToken(req, res) {
+  const { id } = req;
+
+  Contact.findOne({ id }, (err, data) => {
+    if (err) return res.status(404).send({ message: 'User not found' });
+
+    return res.status(200).send({ User: data });
+  });
+}
+
 module.exports = {
   getUsers,
   getUser,
@@ -94,4 +104,5 @@ module.exports = {
   editUser,
   createUser,
   replaceUser,
+  loginToken,
 };
