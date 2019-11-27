@@ -4,7 +4,7 @@ function getBooks(req, res) {
   Books.find({}, (err, books) => {
     if (err) return res.status(500).send({ err });
 
-    return res.status(200).send({ books });
+    return res.status(200).send(books);
   });
 }
 
@@ -34,6 +34,7 @@ function replaceBook(req, res) {
   const { fechaPublicacion } = req.body;
   const { precio } = req.body;
   const { editorial } = req.body;
+  
 
   if (!bookId || !titulo || !ISBN || !descripcion || !fechaPublicacion || !precio || !editorial) {
     return res.status(400).send({ message: 'Missing parameters' });
@@ -75,80 +76,107 @@ function deleteBook(req, res) {
 function findBookByISBN(req, res) {
   const { ISBN } = req.params;
 
-  Books.findOne({ ISBN }, (err, book) => {
+  Books.find({ ISBN }, (err, book) => {
     if (err) return res.status(500).send({ err });
     if (!book) return res.status(404).send({ message: 'Book not found' });
 
-    return res.status(200).send({ book });
+    return res.status(200).send(book);
   });
 }
 
 function findBookByFecha(req, res) {
   const { fecha } = req.params;
 
-  Books.findOne({ fecha }, (err, book) => {
+  Books.find({ fecha }, (err, book) => {
     if (err) return res.status(500).send({ err });
     if (!book) return res.status(404).send({ message: 'Book not found' });
 
-    return res.status(200).send({ book });
+    return res.status(200).send(book);
   });
 }
 
 function findBookByTitulo(req, res) {
   const { titulo } = req.params;
 
-  Books.findOne({ titulo }, (err, book) => {
+  Books.find({ titulo }, (err, book) => {
     if (err) return res.status(500).send({ err });
     if (!book) return res.status(404).send({ message: 'Book not found' });
 
-    return res.status(200).send({ book });
+    return res.status(200).send(book);
   });
 }
 
 function findBookByAutor(req, res) {
   const { autor } = req.params;
 
-  Books.findOne({ autor }, (err, book) => {
+  Books.find({ autor }, (err, book) => {
     if (err) return res.status(500).send({ err });
     if (!book) return res.status(404).send({ message: 'Book not found' });
 
-    return res.status(200).send({ book });
+    return res.status(200).send(book);
   });
 }
 
 function findBookByDescripcion(req, res) {
   const { descripcion } = req.params;
 
-  Books.findOne({ descripcion }, (err, book) => {
+  Books.find({ descripcion }, (err, book) => {
     if (err) return res.status(500).send({ err });
     if (!book) return res.status(404).send({ message: 'Book not found' });
 
-    return res.status(200).send({ book });
+    return res.status(200).send(book);
   });
 }
 
 function findBookByEditorial(req, res) {
   const { editorial } = req.params;
 
-  Books.findOne({ editorial }, (err, book) => {
+  Books.find({ editorial }, (err, book) => {
     if (err) return res.status(500).send({ err });
     if (!book) return res.status(404).send({ message: 'Book not found' });
 
-    return res.status(200).send({ book });
+    return res.status(200).send(book);
   });
 }
 
 function findBookByPrecio(req, res) {
   const { precio } = req.params;
 
-  Books.findOne({ precio }, (err, book) => {
+  Books.find({ precio }, (err, book) => {
     if (err) return res.status(500).send({ err });
     if (!book) return res.status(404).send({ message: 'Book not found' });
 
-    return res.status(200).send({ book });
+    return res.status(200).send(book);
   });
 }
 
+function findBook(req, res) {
+  const { titulo } = req.body;
+  const { ISBN } = req.body;
+  const { precio } = req.body;
+  const { descripcion } = req.body;
+  const { autor } = req.body;
+  const { editorial } = req.body;
+  const { fechaPublicacion } = req.body;
+  const { _id } = req.body;
+
+  Books.find({
+    $or: [
+      { _id },
+      { titulo },
+      { ISBN },
+      { precio },
+      { autor },
+      { descripcion },
+      { editorial },
+      { fechaPublicacion },
+    ],
+  }, (err, data) => {
+    if (data) return res.status(200).send({ message: 'Book found', data });
+
+    return res.status(404).send({ message: 'book not found', err });
+  });
+}
 module.exports = {
   getBooks,
   getBook,
@@ -163,4 +191,5 @@ module.exports = {
   deleteBook,
   createBook,
   replaceBook,
+  findBook,
 };

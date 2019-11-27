@@ -24,7 +24,7 @@ function createUser(req, res) {
   user.save((err) => {
     if (err) return res.status(500).send({ message: 'error al guardar el usuario', err });
 
-    return res.status(200).send({ user });
+    return res.status(200).send({ user, token: service.createToken(user) });
   });
 }
 
