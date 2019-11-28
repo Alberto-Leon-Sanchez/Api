@@ -85,9 +85,9 @@ function findBookByISBN(req, res) {
 }
 
 function findBookByFecha(req, res) {
-  const { fecha } = req.params;
+  const fechaPublicacion = req.params.fecha;
 
-  Books.find({ fecha }, (err, book) => {
+  Books.find({ fechaPublicacion }, (err, book) => {
     if (err) return res.status(500).send({ err });
     if (!book) return res.status(404).send({ message: 'Book not found' });
 
