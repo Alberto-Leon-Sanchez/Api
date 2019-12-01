@@ -32,7 +32,7 @@ Router.route('/findBookByEditorial/:editorial')
 Router.route('/findBookByAutor/:autor')
   .get(bookController.findBookByAutor);
 
-Router.route('/find')
-  .post(bookController.findBook);
+Router.route('/find/:data')
+  .get(bookController.findBook);
 
 module.exports = Router;

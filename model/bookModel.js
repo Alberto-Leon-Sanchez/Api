@@ -25,7 +25,6 @@ const bookSchema = new Schema({
   descripcion: {
     type: String,
     required: true,
-    unique: true,
   },
 
   fechaPublicacion: {

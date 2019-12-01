@@ -151,28 +151,19 @@ function findBookByPrecio(req, res) {
 }
 
 function findBook(req, res) {
-  const { titulo } = req.body;
-  const { ISBN } = req.body;
-  const { precio } = req.body;
-  const { descripcion } = req.body;
-  const { autor } = req.body;
-  const { editorial } = req.body;
-  const { fechaPublicacion } = req.body;
-  const { _id } = req.body;
+  const { data } = req.params;
 
   Books.find({
     $or: [
-      { _id },
-      { titulo },
-      { ISBN },
-      { precio },
-      { autor },
-      { descripcion },
-      { editorial },
-      { fechaPublicacion },
+      { "titulo": new RegExp('^' + data, 'i') },
+      { "ISBN": new RegExp('^' + data, 'i') },
+      { "autor": new RegExp('^' + data, 'i') },
+      { "descripcion": new RegExp('^' + data, 'i') },
+      { "editorial": new RegExp('^' + data, 'i') },
+      { "fechaPublicacion": new RegExp('^' + data, 'i') },
     ],
   }, (err, data) => {
-    if (data) return res.status(200).send({ message: 'Book found', data });
+    if (data) return res.status(200).send(data);
 
     return res.status(404).send({ message: 'book not found', err });
   });
